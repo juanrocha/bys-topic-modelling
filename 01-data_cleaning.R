@@ -48,7 +48,7 @@ ids <- dat %>% pull(id) %>% unique()
 
 
 df_tm <- alldat %>% 
-  select(id, title, abstract, index_keywords, author_keywords) %>% 
+  select(id, title, year, cited_by, affiliations, authors_with_affiliations, source_title, doi) %>% 
   filter(id %in% ids) %>% # filder for the included files 
   as_tibble()
 

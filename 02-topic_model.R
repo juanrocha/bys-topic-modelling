@@ -169,9 +169,11 @@ ggsave(
 ## Papers
 df_docs <- tidy(topicNumber.TM[[3]], matrix = "gamma") 
 
-
+excluded_topics <- c(4, 23, 24, 25, 36, 41, 42, 43, 45, 48, 50, 54, 61, 62, 66, 
+                     67, 68, 71, 73, 74, 75, 78, 82, 93, 94, 95, 97, 99)
 
 df_doc <- df_docs %>% 
+    #filter(!topic %in% excluded_topics) |> 
   group_by(document) %>% 
   mutate(max = max(gamma),
          is_max = gamma == max) %>% 
@@ -179,7 +181,8 @@ df_doc <- df_docs %>%
   select(-max, -is_max)
 
 df_doc %>% filter(topic == 10)
-df_doc %>% filter(topic == 1)df_doc %>% filter(topic == 5)
+df_doc %>% filter(topic == 1)
+df_doc %>% filter(topic == 4)
 
 df_doc %>% 
   group_by(topic) %>% 
@@ -212,5 +215,5 @@ ggbiplot::ggbiplot(pca)
 df_tm |> 
     left_join(df_doc |> mutate(document = as.numeric(document )), 
               by = c("id" = "document")) |> 
-    select(-index_keywords, -author_keywords) |> 
+    #select(-index_keywords, -author_keywords) |> 
     write_csv(file = "data/documents_and_topics.csv")
